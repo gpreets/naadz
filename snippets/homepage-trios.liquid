@@ -1,0 +1,37 @@
+
+{% if settings.home_trios_enable %}
+    <div class="homepage-trios grid--full">
+        <div class="wrapper">
+            <div class="grid-item medium-up--one-third">
+                <a href="{{ settings.home_trios_link_1 }}" title="" class="trios-slide">
+                    <div class="overlay"><span>{{settings.home_trios_img_1_alt}}</span></div>
+                    {{ "home_trios_img_1.jpg" | asset_url | img_tag: settings.home_trios_img_1_alt }}
+                </a>
+            </div>
+            <div class="grid-item medium-up--one-third">
+                <a href="{{ settings.home_trios_link_2 }}" title="" class="trios-slide">
+                    <div class="overlay"><span>{{settings.home_trios_img_2_alt}}</span></div>
+                    {{ "home_trios_img_2.jpg" | asset_url | img_tag: settings.home_trios_img_2_alt }}
+                </a>
+            </div>
+            <div class="grid-item last medium-up--one-third">
+                <a href="{{ settings.home_trios_link_3 }}" title="" class="trios-slide">
+                    <div class="overlay"><span>{{settings.home_trios_img_3_alt}}</span></div>
+                    {{ "home_trios_img_3.jpg" | asset_url | img_tag: settings.home_trios_img_3_alt }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if settings.home_promotions_enable %}
+    <div class="slider-home-mobile grid--full">
+        <div class="wrapper">
+            <div class="grid--full">
+                <a href="{{ settings.home_promotions_link }}" title="{{ settings.home_promotions_img_alt }}" class="slide-link">
+                    {{ "home_promotions_img.jpg" | asset_url | img_tag: settings.home_promotions_img_alt }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}

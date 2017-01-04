@@ -1,0 +1,56 @@
+{% if settings.slider_home_enable %}
+<div class="slider-home">
+    <div class="wrapper">
+        <div class="grid--full">
+          	<div class="{% if settings.slider_home_auto %}flexslider {% endif %}grid-item{% if settings.slider_side_enable %} large--three-quarters{% else %} one-whole{% endif %}" id="heroSlider">
+              <ul class="slides">
+                  {% for i in (1..6) %}
+                  {% capture slide %}slide_{{ i }}{% endcapture %}
+                  {% capture slide_link %}slide_{{ i }}_link{% endcapture %}
+                  {% capture slide_img %}slide_{{ i }}.jpg{% endcapture %}
+                  {% capture slide_alt %}slide_{{ i }}_alt{% endcapture %}
+                  {% if settings[slide] %}
+                  <li>
+                      <a href="{{ settings[slide_link] }}" class="slide-link">
+                          {{ slide_img | asset_url | img_tag: settings[slide_alt] }}
+                      </a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+              </ul>
+            </div>
+
+            {% if settings.slider_side_enable %}
+              <div class="slider-side grid-item large--one-quarter">
+                  <div class="slider-side-box featured-box">
+                      <div class="slider-side-box-content">
+                          <div class="large-header h1">{{ settings.slider_side_text }}</div>
+                          <a href="{{ settings.slider_side_url }}" class="btn shop-btn">SHOP NOW</a>
+                      </div>
+                  </div>
+              </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<!--
+<div class="slider-home-mobile grid--full">
+    <div class="wrapper">
+        <div class="grid--full">
+            {% capture slideone %}slide_{{ 1 }}{% endcapture %}
+            {% capture slideone_link %}slide_{{ 1 }}_link{% endcapture %}
+            {% capture slideone_img %}slide_{{ 1 }}.jpg{% endcapture %}
+            {% capture slideone_alt %}slide_{{ 1 }}_alt{% endcapture %}
+            {% if settings[slideone] %}
+            <a href="{{ settings[slideone_link] }}" class="slide-link">
+                {{ slideone_img | asset_url | img_tag: settings[slideone_alt] }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+-->
+

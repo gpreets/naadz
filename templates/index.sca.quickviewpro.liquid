@@ -1,0 +1,9 @@
+{% layout none %}{
+  "jsondata": "{{ shop.metafields.sca-np-qv.settings }}",
+  "moneyFormat": "{{ shop.money_format }}",
+  "noimage": "{{ 'sca-qv-no-image.jpg' | asset_url }}",
+  "autoconfig":"yes"
+}
+{% include 'limespot-login-prompt-banner' %}
+{% include 'limespot-most-popular' %}
+{% include 'limespot-recently-viewed' %}

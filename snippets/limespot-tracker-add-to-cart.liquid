@@ -1,0 +1,75 @@
+<script>
+	document.addEventListener("lsReady", function () {
+		for (var i = 0; i < document.getElementsByTagName('form').length; i++) {
+			var form = document.getElementsByTagName('form')[i];
+			if (form.getAttribute('action') != null) {
+				if (form.getAttribute('action').indexOf('/cart/add') != -1) {
+					form.addEventListener("submit", function () {
+						if (!duplicateAddToCartEvent()) {
+							lastAddToCartTime = new Date();
+
+							var idElements = document.getElementsByName("id");
+							for (var j = 0; j < idElements.length; j++) {
+								var idElement = idElements[j];
+								if (idElement.form == this) {
+									var variantIdentifier = null;
+
+									switch (idElement.tagName.toLowerCase()) {
+										case "select":
+											if (idElement.selectedIndex != -1)
+												variantIdentifier = idElement.options[idElement.selectedIndex].value;
+											break;
+
+										case "input":
+											variantIdentifier = idElement.value;
+											break;
+									}
+
+									if (variantIdentifier != null && variantIdentifier != "")
+										LimeSpot.Storefront.LogActivity(LimeSpot.Storefront.TrackerActivitySource, "ProductVariantAddToCart", variantIdentifier);
+								}
+							}
+						}
+					});
+				}
+			}
+		}
+
+		if ($().ajaxSend) {
+			$(document).ajaxSend(function (event, request, settings) {
+				if (settings.url.indexOf("/cart/add.js") != -1 && !duplicateAddToCartEvent()) {
+					var variantIdentifier = getUrlParamValue(settings.url, "id");
+
+					if (variantIdentifier == null || isNaN(variantIdentifier)) {
+						variantIdentifier = getUrlParamValue("?" + settings.data, "id");
+					}
+
+					if (variantIdentifier != null && !isNaN(variantIdentifier)) {
+						lastAddToCartTime = new Date();
+						LimeSpot.Storefront.LogActivity(LimeSpot.Storefront.TrackerActivitySource, "ProductVariantAddToCart", variantIdentifier);
+					}
+				}
+			});
+		}
+
+		getUrlParamValue = function (url, param) {
+			param = param.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+			var regex = new RegExp("[\\?&]" + param + "=([^&#]*)"),
+			results = regex.exec(url);
+			return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
+
+		var lastAddToCartTime = null;
+		duplicateAddToCartEvent = function () {
+			if (lastAddToCartTime == null)
+				return false;
+
+			var timeDifference = ((new Date()) - lastAddToCartTime);
+			if (timeDifference > 500 /*half-second*/)
+				return false;
+
+			return true;
+		}
+	});
+</script>
+{% comment %}Checksum: e4070d096d300d4aa685176ee4ebea57{% endcomment %}
